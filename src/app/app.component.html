@@ -1,28 +1,52 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <form>
+      <form (ngSubmit)="onSubmit()" [formGroup]="signupForm"> <!--'[FormGroup]' tell angular "use my form, dont make one for me" -->
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">Username</label> <!-- formControlName(below) tells html what our ts controls are -->
           <input
+            formControlName="username"
             type="text"
             id="username"
-            class="form-control">
+            class="form-control"> <!--the ngIf below: get is built-in, we get the username control, and check if valid -->
+            <span
+            class="help-block"
+            *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched">
+            Please enter a valid username!
+          </span>
         </div>
         <div class="form-group">
           <label for="email">email</label>
           <input
+            formControlName="email"
             type="text"
             id="email"
             class="form-control">
+            <span
+            class="help-block"
+            *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">
+            Please enter a valid email!
+          </span>
         </div>
         <div class="radio" *ngFor="let gender of genders">
           <label>
             <input
+              formControlName="gender"
               type="radio"
               [value]="gender">{{ gender }}
           </label>
         </div>
+        <div formArrayName="hobbies"> <!-- formArrayName="hobbies" used to sync with our ts code -->
+          <h4>Add your Hobbies:</h4> <!--the type=button is important b/c we dont want form submission -->
+          <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onAddHobby">add</button>
+          <div class="form-group">
+            
+          </div>
+        </div>
+        <hr>
         <button class="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
